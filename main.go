@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os/exec"
 	"strings"
@@ -9,19 +10,20 @@ import (
 
 func main() {
 	batteryState := readBatteryState()
-	log.Println("Battery State: ", batteryState)
+	fmt.Println("Battery State:", batteryState)
 	for {
-		time.Sleep(time.Second * 10)
+		time.Sleep(time.Millisecond * 100)
 		newBatteryState := readBatteryState()
 		if batteryState != newBatteryState {
-			log.Println("Battery State: ", newBatteryState)
+			fmt.Println("Battery State:", newBatteryState)
 		}
+
 		batteryState = newBatteryState
 	}
 }
 
 func readBatteryState() string {
-	upowerOuput, err := runCommand("upower -i `upower -e | grep 'BAT'` | grep 'state:'")
+	upowerOuput, err := runCommand("upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep 'state:'")
 	if err != nil {
 		log.Fatal("Error while reading battery state: ", err)
 	}
