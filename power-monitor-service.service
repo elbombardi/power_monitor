@@ -1,0 +1,11 @@
+[Unit]
+Description=Power shortage monitoring service
+
+[Service]
+User=wissem
+Type=simple
+ExecStart=power_monitor
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
